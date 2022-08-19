@@ -24,36 +24,33 @@ function Header() {
         { verifyTitle() }
       </h1>
 
+      <button
+        type="button"
+        onClick={ () => { history.push('/profile'); } }
+      >
+        <img
+          data-testid="profile-top-btn"
+          src={ profileIcon }
+          alt="Profile Icon"
+        />
+      </button>
+
       {
         (pathname !== '/profile'
           && pathname !== '/done-recipes'
           && pathname !== '/favorite-recipes')
-          ? (
-            <div className="icons-container">
-              <button
-                type="button"
-                data-testid="search-top-btn"
-                onClick={ () => { setAppearsButton(!appersButton); } }
-              >
-                <img src={ searchIcon } alt="Search Icon" />
-              </button>
-
-              <button
-                type="button"
-                data-testid="profile-top-btn"
-                onClick={ () => { history.push('/profile'); } }
-              >
-                <img src={ profileIcon } alt="Profile Icon" />
-              </button>
-            </div>)
-          : (
+          && (
             <button
               type="button"
-              data-testid="profile-top-btn"
-              onClick={ () => { history.push('/profile'); } }
+              onClick={ () => { setAppearsButton(!appersButton); } }
             >
-              <img src={ profileIcon } alt="Profile Icon" />
-            </button>)
+              <img
+                data-testid="search-top-btn"
+                src={ searchIcon }
+                alt="Search Icon"
+              />
+            </button>
+          )
       }
       {
         appersButton
