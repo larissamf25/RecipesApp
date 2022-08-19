@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import RecipesContext from '../context/RecipesContext';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
 function Header() {
+  const { searchValue, setSearchValue } = useContext(RecipesContext);
   const [appersButton, setAppearsButton] = useState(false);
   const { pathname } = useLocation();
   const history = useHistory();
 
+  const verifyTitle = () => {
+    const title = (pathname.substring(1).replace('-', ' ')).split(' ');
+    for (let i = 0; i < title.length; i += 1) {
+      title[i] = title[i][0].toUpperCase() + title[i].substr(1);
+    }
+    return (title.toString().replace(',', ' '));
+  };
+
   return (
     <header>
       <h1 data-testid="page-title">
-        { pathname.substring(1).toUpperCase()}
+        { verifyTitle() }
       </h1>
 
       {
@@ -23,7 +33,7 @@ function Header() {
               <button
                 type="button"
                 data-testid="search-top-btn"
-                onClick={ setAppearsButton(!appersButton) }
+                onClick={ () => { setAppearsButton(!appersButton); } }
               >
                 <img src={ searchIcon } alt="Search Icon" />
               </button>
@@ -44,6 +54,23 @@ function Header() {
             >
               <img src={ profileIcon } alt="Profile Icon" />
             </button>)
+      }
+      {
+        appersButton
+        && (
+          <label htmlFor="searchInput">
+            Search
+            <input
+              data-testid="search-input"
+              id="searchInput"
+              type="text"
+              value={ searchValue }
+              onChange={ ({ target }) => {
+                setSearchValue(target.value);
+              } }
+            />
+          </label>
+        )
       }
 
     </header>
