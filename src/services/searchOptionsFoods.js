@@ -6,9 +6,10 @@ export async function fetchRecipesByIngredient(ingredient) {
 }
 
 export async function fetchRecipesByLetter(letter) {
-  const endpoint = `www.themealdb.com/api/json/v1/1/search.php?f=${letter}`;
+  const endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`;
   const data = await fetch(endpoint)
     .then((response) => response.json());
+  console.log(data.meals);
   return data.meals;
 }
 
