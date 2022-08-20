@@ -9,7 +9,7 @@ function SearchBar() {
       .querySelector('input[name="radioOption"]:checked').value;
     if (searchValue.length !== 1) {
       document.querySelector('form').reset();
-      global.alert('Your search must have only 1 (one) character');
+      return global.alert('Your search must have only 1 (one) character');
     }
     setSearchBarOption(selectedOption);
     document.querySelector('form').reset();

@@ -25,22 +25,20 @@ function Foods() {
       const verifySearchValue = async () => {
         if (searchBarOption === 'ingredientSearch') {
           setRecipes(await fetchRecipesByIngredient(searchValue));
-          setSearchBarOption('');
-        } else if (searchBarOption === 'letterSearch') {
+        } if (searchBarOption === 'letterSearch') {
           setRecipes(await fetchRecipesByLetter(searchValue));
-          setSearchBarOption('');
+        } else {
+          setRecipes(await fetchRecipesByName(searchValue));
         }
-        setRecipes(await fetchRecipesByName(searchValue));
-        setSearchBarOption('');
       };
       verifySearchValue();
+      setSearchBarOption('');
     }
   }, [searchBarOption]);
 
   return (
     <div>
       <Header />
-      <h1>Foods Page</h1>
       {
         (recipes.length > 0)
           ? recipes.map((recipe) => (
