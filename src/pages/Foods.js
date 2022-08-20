@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import RecipesContext from '../context/RecipesContext';
 import { fetchRecipesByIngredient,
@@ -6,35 +6,40 @@ import { fetchRecipesByIngredient,
   fetchRecipesByName } from '../helper/searchOptions';
 
 function Foods() {
-  const { searchBarOption, searchValue } = useContext(RecipesContext);
-  // const [recipes, setRecipes] = useState([]);
+  const { searchBarOption, searchValue, setSearchBarOption } = useContext(RecipesContext);
+  const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    const verifySearchValue = () => {
-      if (searchBarOption === 'ingredientSearch') {
-        setRecipes(fetchRecipesByIngredient(searchValue));
-      } if (searchBarOption === 'ingredientSearch') {
-        setRecipes(fetchRecipesByLetter(searchValue));
-      }
-      setRecipes(fetchRecipesByName(searchValue));
-    };
-    verifySearchValue();
+    if (searchBarOption.length > 0 && searchValue.length <= 1) {
+      const verifySearchValue = async () => {
+        if (searchBarOption === 'ingredientSearch') {
+          setRecipes(await fetchRecipesByIngredient(searchValue));
+          setSearchBarOption('');
+        } if (searchBarOption === 'ingredientSearch') {
+          setRecipes(await fetchRecipesByLetter(searchValue));
+          setSearchBarOption('');
+        }
+        setRecipes(await fetchRecipesByName(searchValue));
+        setSearchBarOption('');
+      };
+      verifySearchValue();
+      setSearchBarOption('');
+    }
   }, [searchBarOption]);
 
-  // console.log(recipes);
   return (
     <div>
       <Header />
       <h1>Foods Page</h1>
-      {/* {
-        (recipes.length !== 0)
+      {
+        (recipes.length > 0)
          && recipes.map((recipe) => (
            <div key={ recipe.idMeal }>
              <h1>{recipe.strMeal}</h1>
-             <img src={ recipe.strMealThumb } alt={ recipe.strMeal } />
+             <img src={ recipe.strMealThumb } alt={ recipe.strMeal } width="200px" />
            </div>
          ))
-      } */}
+      }
     </div>
   );
 }
