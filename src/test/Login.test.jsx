@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-// import { useHistory } from 'react-router-dom';
 import App from '../App';
 
 describe('Login', () => {
@@ -18,7 +17,7 @@ describe('Login', () => {
     expect(btnSubmit).toBeInTheDocument();
   });
   test(`Verifica se o botão é habilitado somente após
-    os inputs serem preenchidos de forma correta`, async () => {
+    os inputs serem preenchidos de forma correta`, () => {
     render(<App />);
 
     const btnSubmit = screen.getByText(/login/i);
@@ -32,7 +31,6 @@ describe('Login', () => {
     expect(btnSubmit).not.toBeDisabled();
 
     userEvent.click(btnSubmit);
-
-    // expect(history.location.pathname).toBe('/recipes');
+    expect(screen.getByTestId('page-title')).toBeInTheDocument();
   });
 });
