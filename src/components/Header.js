@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 function Header() {
   const { searchValue, setSearchValue } = useContext(RecipesContext);
@@ -55,9 +56,9 @@ function Header() {
       {
         appersButton
         && (
-          <label htmlFor="searchInput">
-            Search
+          <div>
             <input
+              placeholder="Search for a recipe"
               data-testid="search-input"
               id="searchInput"
               type="text"
@@ -66,7 +67,8 @@ function Header() {
                 setSearchValue(target.value);
               } }
             />
-          </label>
+            <SearchBar />
+          </div>
         )
       }
 
