@@ -12,6 +12,7 @@ export async function fetchRecipesByLetter(letter) {
   console.log(data.meals);
   return data.meals;
 }
+fetchRecipesByLetter('a');
 
 export async function fetchRecipesByName(name) {
   const endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`;

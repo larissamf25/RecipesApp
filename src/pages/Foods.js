@@ -26,7 +26,7 @@ function Foods() {
         if (searchBarOption === 'ingredientSearch') {
           setRecipes(await fetchRecipesByIngredient(searchValue));
           setSearchBarOption('');
-        } if (searchBarOption === 'ingredientSearch') {
+        } else if (searchBarOption === 'letterSearch') {
           setRecipes(await fetchRecipesByLetter(searchValue));
           setSearchBarOption('');
         }
