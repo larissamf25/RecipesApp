@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 
 describe('Testing SearchBar Component', () => {
-  global.alert = jest.fn();
+  // global.alert = jest.fn();
   it('Should render all elements in SearchBar correctly', async () => {
     render(<App />);
 
@@ -44,6 +44,6 @@ describe('Testing SearchBar Component', () => {
     userEvent.click(letterInput);
     userEvent.click(searchBtn);
 
-    global.alert.mockClear();
+    // global.alert.mockClear();
   });
 });

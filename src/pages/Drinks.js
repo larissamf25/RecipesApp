@@ -42,7 +42,7 @@ function Drinks() {
     <div>
       <Header />
       {
-        (recipes.length > 0)
+        (recipes)
           ? recipes.map((recipe) => (
             <div key={ recipe.idDrink }>
               <h1>{recipe.strDrink}</h1>

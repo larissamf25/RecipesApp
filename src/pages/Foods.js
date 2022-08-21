@@ -40,7 +40,7 @@ function Foods() {
     <div>
       <Header />
       {
-        (recipes.length > 0)
+        (recipes)
           ? recipes.map((recipe) => (
             <div key={ recipe.idMeal }>
               <h1>{recipe.strMeal}</h1>
