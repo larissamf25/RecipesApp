@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import DrinkCard from '../components/DrinkCard';
 import RecipesContext from '../context/RecipesContext';
@@ -61,6 +62,7 @@ function Drinks() {
                   />))}
             </div>)
       }
+      <Footer />
     </div>
   );
 }

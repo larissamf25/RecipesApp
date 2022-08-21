@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import RecipesContext from '../context/RecipesContext';
 import { fetchRecipesByIngredient,
@@ -54,6 +55,7 @@ function Foods() {
                 .map((food, idx) => <FoodCard key={ idx } food={ food } index={ idx } />)}
             </div>)
       }
+      <Footer />
     </div>
   );
 }
