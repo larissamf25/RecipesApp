@@ -1,7 +1,11 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DrinkCard from '../components/DrinkCard';
 import RecipesContext from '../context/RecipesContext';
-import { fetchDrinkAPI, fetchDrinkCategories } from '../services/drinkAPI';
+import { fetchDrinkAPI,
+  fetchDrinkAPIByCategory,
+  fetchDrinkCategories } from '../services/drinkAPI';
+import '../css/Drinks.css';
+import { Link } from 'react-router-dom';
 
 function Drinks() {
   const {
@@ -10,29 +14,63 @@ function Drinks() {
     drinkCategories,
     setDrinkCategories,
   } = useContext(RecipesContext);
+  const [localDrinkList, setLocalDrinkList] = useState([]);
+  const [currentCategory, setCurrentCategory] = useState('All');
   useEffect(() => {
     const fetchAPI = async () => {
       const drinkListRequest = await fetchDrinkAPI();
       setDrinkList(drinkListRequest);
       const drinkCategoriesRequest = await fetchDrinkCategories();
       setDrinkCategories(drinkCategoriesRequest);
+      setLocalDrinkList(drinkListRequest.slice(0, Number('12')));
     };
     fetchAPI();
   }, []);
+
+  const categoryFilter = async ({ target }) => {
+    const category = target.name;
+    if (category === 'All') {
+      setLocalDrinkList(drinkList.slice(0, Number('12')));
+      setCurrentCategory('All');
+    } else {
+      const filterdDrinkList = await fetchDrinkAPIByCategory(category);
+      console.log(filterdDrinkList);
+      setLocalDrinkList(filterdDrinkList.slice(0, Number('12')));
+      setCurrentCategory(category);
+    }
+  };
+
   return (
     <div>
-      { drinkList
-        .slice(0, Number('12'))
-        .map((drink, idx) => <DrinkCard key={ idx } drink={ drink } index={ idx } />)}
-      { drinkCategories.slice(0, Number('5')).map((category, idx) => (
+      { localDrinkList
+        .map((drink, idx) => (
+          <div key={ idx }>
+            <Link to={ `/drinks/${drink.idDrink}` }>
+              <DrinkCard drink={ drink } index={ idx } />
+            </Link>
+          </div>
+        ))}
+      <div className="categories-container">
+        { drinkCategories.slice(0, Number('5')).map((category, idx) => (
+          <button
+            key={ idx }
+            type="button"
+            data-testid={ `${category.strCategory}-category-filter` }
+            name={ category.strCategory }
+            onClick={ categoryFilter }
+          >
+            { category.strCategory }
+          </button>
+        ))}
         <button
-          key={ idx }
           type="button"
-          data-testid={ `${category.strCategory}-category-filter` }
+          name="All"
+          onClick={ categoryFilter }
+          data-testid="All-category-filter"
         >
-          { category.strCategory }
+          All
         </button>
-      ))}
+      </div>
     </div>
   );
 }

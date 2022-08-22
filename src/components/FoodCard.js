@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 
 function FoodCard({ index, food }) {
   return (
-    <div data-testid={ `${index}-recipe-card` }>
+    <div>
       <p data-testid={ `${index}-card-name` }>
         Nome:
         {' '}
         { food.strMeal }
       </p>
       <img
+        style={ { width: '150px' } }
         src={ food.strMealThumb }
         alt={ food.strMeal }
         data-testid={ `${index}-card-img` }
