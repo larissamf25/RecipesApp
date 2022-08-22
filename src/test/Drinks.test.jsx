@@ -1,8 +1,7 @@
-/* import { render, screen } from "@testing-library/react";
+// import { render, screen } from '@testing-library/react';
 
 describe('Drinks page tests', () => {
-    it('should show the firsts 12 drinks of the menu', () => {
-        // tests here
-    });
+  it('should show the firsts 12 drinks of the menu', () => {
+    // tests here
+  });
 });
-*/
