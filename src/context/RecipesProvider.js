@@ -4,11 +4,15 @@ import RecipesContext from './RecipesContext';
 
 function RecipesProvider({ children }) {
   const [searchValue, setSearchValue] = useState('');
+  const [searchBarOption, setSearchBarOption] = useState('');
+
   return (
     <RecipesContext.Provider
       value={ {
         searchValue,
+        searchBarOption,
         setSearchValue,
+        setSearchBarOption,
       } }
     >
       {children}
