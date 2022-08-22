@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 
 describe('Testing Profile Component', () => {
-    it('Should render all elements in Profile correctly', () => {
+  it('Should render all elements in Profile correctly', () => {
     render(<App />);
 
     const btnSubmit = screen.getByText(/login/i);
@@ -22,13 +22,13 @@ describe('Testing Profile Component', () => {
     const profileIcon = screen.getByTestId('profile-top-btn');
     userEvent.click(profileIcon);
 
-    const userEmail =  screen.getByTestId("profile-email");
-    expect(userEmail).toBeInTheDocument()
+    const userEmail = screen.getByTestId('profile-email');
+    expect(userEmail).toBeInTheDocument();
 
-    const doneBtn = screen.getByTestId("profile-done-btn")
-    userEvent.click(doneBtn)
+    const doneBtn = screen.getByTestId('profile-done-btn');
+    userEvent.click(doneBtn);
 
     // expect(JSON.parse(localStorage.removeItem('user'))).toEqual('');
-    expect(localStorage.clear()).toEqual(undefined);
+    // expect(localStorage.clear()).toEqual(undefined);
   });
 });
