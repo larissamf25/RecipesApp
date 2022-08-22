@@ -1,20 +1,32 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import FoodCard from '../components/FoodCard';
 import RecipesContext from '../context/RecipesContext';
 import { fetchFoodAPI,
   fetchFoodAPIByCategory,
   fetchFoodCategories } from '../services/foodAPI';
 import '../css/Foods.css';
-import { Link } from 'react-router-dom';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import { fetchRecipesByIngredient,
+  fetchRecipesByLetter,
+  fetchRecipesByName } from '../services/searchOptionsFoods';
 
 function Foods() {
   const {
-    setFoodList,
     foodList,
+    setFoodList,
     foodCategories,
-    setFoodCategories } = useContext(RecipesContext);
+    setFoodCategories,
+    searchBarOption,
+    searchValue,
+    setSearchBarOption } = useContext(RecipesContext);
+
+  // const [foodList, setFoodList] = useState([]);
+  const [recipes, setRecipes] = useState(undefined);
   const [localFoodList, setLocalFoodList] = useState([]);
   const [currentCategory, setCurrentCategory] = useState('All');
+
   useEffect(() => {
     const fetchAPI = async () => {
       const foodListRequest = await fetchFoodAPI();
@@ -38,20 +50,37 @@ function Foods() {
     }
   };
 
+  useEffect(() => {
+    if (searchBarOption.length > 0) {
+      const verifySearchValue = async () => {
+        if (searchBarOption === 'ingredientSearch') {
+          setRecipes(await fetchRecipesByIngredient(searchValue));
+        } if (searchBarOption === 'letterSearch') {
+          setRecipes(await fetchRecipesByLetter(searchValue));
+        } else {
+          setRecipes(await fetchRecipesByName(searchValue));
+        }
+      };
+      verifySearchValue();
+      setSearchBarOption('');
+    }
+  }, [searchBarOption]);
+
+  const verifyRecipesLength = () => {
+    if (recipes === null) {
+      setRecipes([]);
+      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } if (recipes.length === 1) {
+      return <Redirect to={ `/foods/${recipes[0].idMeal}` } />;
+    }
+    return recipes
+      .slice(0, Number('12'))
+      .map((food, idx) => <FoodCard key={ idx } food={ food } index={ idx } />);
+  };
+
   return (
     <div>
-      { localFoodList
-        .map((food, idx) => (
-          <div
-            data-testid={ `${idx}-recipe-card` }
-            key={ idx }
-            style={ { width: '200px', border: '1px solid red' } }
-          >
-            <Link to={ `/foods/${food.idMeal}` }>
-              <FoodCard food={ food } index={ idx } />
-            </Link>
-          </div>
-        ))}
+      <Header />
       <div className="categories-container">
         { foodCategories
           .slice(0, Number('5')).map((category, idx) => (
@@ -74,6 +103,25 @@ function Foods() {
           All
         </button>
       </div>
+      {
+        (!recipes && recipes !== null)
+          ? (
+            <div>
+              { localFoodList.map((food, idx) => (
+                <div
+                  data-testid={ `${idx}-recipe-card` }
+                  key={ idx }
+                  style={ { width: '200px', border: '1px solid red' } }
+                >
+                  <Link to={ `/foods/${food.idMeal}` }>
+                    <FoodCard food={ food } index={ idx } />
+                  </Link>
+                </div>
+              ))}
+            </div>)
+          : verifyRecipesLength()
+      }
+      <Footer />
     </div>
   );
 }

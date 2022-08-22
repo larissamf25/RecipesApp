@@ -1,11 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import DrinkCard from '../components/DrinkCard';
 import RecipesContext from '../context/RecipesContext';
 import { fetchDrinkAPI,
   fetchDrinkAPIByCategory,
   fetchDrinkCategories } from '../services/drinkAPI';
 import '../css/Drinks.css';
-import { Link } from 'react-router-dom';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import { fetchRecipesByIngredient,
+  fetchRecipesByLetter,
+  fetchRecipesByName } from '../services/searchOptionsDrinks';
 
 function Drinks() {
   const {
@@ -13,9 +18,14 @@ function Drinks() {
     drinkList,
     drinkCategories,
     setDrinkCategories,
+    searchBarOption,
+    searchValue,
+    setSearchBarOption,
   } = useContext(RecipesContext);
   const [localDrinkList, setLocalDrinkList] = useState([]);
   const [currentCategory, setCurrentCategory] = useState('All');
+  const [recipes, setRecipes] = useState(undefined);
+
   useEffect(() => {
     const fetchAPI = async () => {
       const drinkListRequest = await fetchDrinkAPI();
@@ -29,7 +39,7 @@ function Drinks() {
 
   const categoryFilter = async ({ target }) => {
     const category = target.name;
-    if (category === 'All') {
+    if (category === 'All' || category === currentCategory) {
       setLocalDrinkList(drinkList.slice(0, Number('12')));
       setCurrentCategory('All');
     } else {
@@ -40,16 +50,37 @@ function Drinks() {
     }
   };
 
+  useEffect(() => {
+    if (searchBarOption.length > 0) {
+      const verifySearchValue = async () => {
+        if (searchBarOption === 'ingredientSearch') {
+          setRecipes(await fetchRecipesByIngredient(searchValue));
+        } if (searchBarOption === 'letterSearch') {
+          setRecipes(await fetchRecipesByLetter(searchValue));
+        } else {
+          setRecipes(await fetchRecipesByName(searchValue));
+        }
+      };
+      verifySearchValue();
+      setSearchBarOption('');
+    }
+  }, [searchBarOption]);
+
+  const verifyRecipesLength = () => {
+    if (recipes === null) {
+      setRecipes([]);
+      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } if (recipes.length === 1) {
+      return <Redirect to={ `/drinks/${recipes[0].idDrink}` } />;
+    }
+    return recipes
+      .slice(0, Number('12'))
+      .map((drink, idx) => <DrinkCard key={ idx } drink={ drink } index={ idx } />);
+  };
+
   return (
     <div>
-      { localDrinkList
-        .map((drink, idx) => (
-          <div key={ idx }>
-            <Link to={ `/drinks/${drink.idDrink}` }>
-              <DrinkCard drink={ drink } index={ idx } />
-            </Link>
-          </div>
-        ))}
+      <Header />
       <div className="categories-container">
         { drinkCategories.slice(0, Number('5')).map((category, idx) => (
           <button
@@ -71,6 +102,22 @@ function Drinks() {
           All
         </button>
       </div>
+      {
+        (!recipes && recipes !== null)
+          ? (
+            <div>
+              { localDrinkList.map((drink, idx) => (
+                <div key={ idx }>
+                  <Link to={ `/drinks/${drink.idDrink}` }>
+                    <DrinkCard drink={ drink } index={ idx } />
+                  </Link>
+                </div>
+              ))}
+            </div>)
+          : verifyRecipesLength()
+      }
+      { }
+      <Footer />
     </div>
   );
 }
