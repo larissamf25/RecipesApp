@@ -1,30 +1,54 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
+import { Link, Redirect } from 'react-router-dom';
 import DrinkCard from '../components/DrinkCard';
 import RecipesContext from '../context/RecipesContext';
-import fetchDrinkAPI from '../services/drinkAPI';
+import { fetchDrinkAPI,
+  fetchDrinkAPIByCategory,
+  fetchDrinkCategories } from '../services/drinkAPI';
+import '../css/Drinks.css';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 import { fetchRecipesByIngredient,
   fetchRecipesByLetter,
   fetchRecipesByName } from '../services/searchOptionsDrinks';
 
 function Drinks() {
   const {
+    setDrinkList,
+    drinkList,
+    drinkCategories,
+    setDrinkCategories,
     searchBarOption,
     searchValue,
-    setSearchBarOption } = useContext(RecipesContext);
-
+    setSearchBarOption,
+  } = useContext(RecipesContext);
+  const [localDrinkList, setLocalDrinkList] = useState([]);
+  const [currentCategory, setCurrentCategory] = useState('All');
   const [recipes, setRecipes] = useState(undefined);
-  const [drinkList, setDrinkList] = useState([]);
 
   useEffect(() => {
     const fetchAPI = async () => {
       const drinkListRequest = await fetchDrinkAPI();
       setDrinkList(drinkListRequest);
+      const drinkCategoriesRequest = await fetchDrinkCategories();
+      setDrinkCategories(drinkCategoriesRequest);
+      setLocalDrinkList(drinkListRequest.slice(0, Number('12')));
     };
     fetchAPI();
   }, []);
+
+  const categoryFilter = async ({ target }) => {
+    const category = target.name;
+    if (category === 'All' || category === currentCategory) {
+      setLocalDrinkList(drinkList.slice(0, Number('12')));
+      setCurrentCategory('All');
+    } else {
+      const filterdDrinkList = await fetchDrinkAPIByCategory(category);
+      console.log(filterdDrinkList);
+      setLocalDrinkList(filterdDrinkList.slice(0, Number('12')));
+      setCurrentCategory(category);
+    }
+  };
 
   useEffect(() => {
     if (searchBarOption.length > 0) {
@@ -57,21 +81,42 @@ function Drinks() {
   return (
     <div>
       <Header />
+      <div className="categories-container">
+        { drinkCategories.slice(0, Number('5')).map((category, idx) => (
+          <button
+            key={ idx }
+            type="button"
+            data-testid={ `${category.strCategory}-category-filter` }
+            name={ category.strCategory }
+            onClick={ categoryFilter }
+          >
+            { category.strCategory }
+          </button>
+        ))}
+        <button
+          type="button"
+          name="All"
+          onClick={ categoryFilter }
+          data-testid="All-category-filter"
+        >
+          All
+        </button>
+      </div>
       {
         (!recipes && recipes !== null)
           ? (
             <div>
-              { drinkList
-                .slice(0, Number('12'))
-                .map((drink, idx) => (
-                  <DrinkCard
-                    key={ idx }
-                    drink={ drink }
-                    index={ idx }
-                  />))}
+              { localDrinkList.map((drink, idx) => (
+                <div key={ idx }>
+                  <Link to={ `/drinks/${drink.idDrink}` }>
+                    <DrinkCard drink={ drink } index={ idx } />
+                  </Link>
+                </div>
+              ))}
             </div>)
           : verifyRecipesLength()
       }
+      { }
       <Footer />
     </div>
   );
