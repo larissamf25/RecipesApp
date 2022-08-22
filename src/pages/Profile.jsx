@@ -11,12 +11,11 @@ function Profile() {
 
   return (
     <div>
+      <Header />
       {
         (user)
           ? (
             <div>
-              <Header />
-              <h1>Profile</h1>
               <span data-testid="profile-email">{user.email}</span>
               <Link
                 to="/done-recipes"
@@ -37,19 +36,17 @@ function Profile() {
               >
                 Logout
               </Link>
-              <Footer />
-            </div>
-          )
-          : <div>
-            <Header />
-            <h1>Profile</h1>
-            <Link
-              to="/"
-            >
-              Logout
-            </Link>
-          </div>
+            </div>)
+          : (
+            <div>
+              <Link
+                to="/"
+              >
+                Logout
+              </Link>
+            </div>)
       }
+      <Footer />
     </div>
   );
 }
