@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import DrinkCard from '../components/DrinkCard';
@@ -9,11 +10,13 @@ import { fetchRecipesByIngredient,
   fetchRecipesByName } from '../services/searchOptionsDrinks';
 
 function Drinks() {
-  const { setDrinkList,
-    drinkList, searchBarOption,
-    searchValue, setSearchBarOption } = useContext(RecipesContext);
+  const {
+    searchBarOption,
+    searchValue,
+    setSearchBarOption } = useContext(RecipesContext);
 
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState(undefined);
+  const [drinkList, setDrinkList] = useState([]);
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -39,18 +42,24 @@ function Drinks() {
     }
   }, [searchBarOption]);
 
+  const verifyRecipesLength = () => {
+    if (recipes === null) {
+      setRecipes([]);
+      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } if (recipes.length === 1) {
+      return <Redirect to={ `/drinks/${recipes[0].idDrink}` } />;
+    }
+    return recipes
+      .slice(0, Number('12'))
+      .map((drink, idx) => <DrinkCard key={ idx } drink={ drink } index={ idx } />);
+  };
+
   return (
     <div>
       <Header />
       {
-        (recipes)
-          ? recipes.map((recipe) => (
-            <div key={ recipe.idDrink }>
-              <h1>{recipe.strDrink}</h1>
-              <img src={ recipe.strDrinkThumb } alt={ recipe.strDrink } width="200px" />
-            </div>
-          ))
-          : (
+        (!recipes && recipes !== null)
+          ? (
             <div>
               { drinkList
                 .slice(0, Number('12'))
@@ -61,6 +70,7 @@ function Drinks() {
                     index={ idx }
                   />))}
             </div>)
+          : verifyRecipesLength()
       }
       <Footer />
     </div>

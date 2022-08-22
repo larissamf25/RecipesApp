@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 
 describe('Testing SearchBar Component', () => {
-  // global.alert = jest.fn();
+  global.alert = jest.fn();
   it('Should render all elements in SearchBar correctly', async () => {
     render(<App />);
 
@@ -36,14 +36,16 @@ describe('Testing SearchBar Component', () => {
 
     userEvent.type(searchBar, 'bread');
     userEvent.click(ingredientInput);
+    expect(document
+      .querySelector('input[name="radioOption"]:checked').value).toBe('ingredientSearch');
     userEvent.click(searchBtn);
 
-    expect(await screen.findByText('Bread and Butter Pudding')).toBeInTheDocument();
+    expect(await screen.findByText('Nome: Bread and Butter Pudding')).toBeInTheDocument();
 
     userEvent.type(searchBar, 'aa');
     userEvent.click(letterInput);
     userEvent.click(searchBtn);
 
-    // global.alert.mockClear();
+    global.alert.mockClear();
   });
 });

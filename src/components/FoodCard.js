@@ -13,6 +13,7 @@ function FoodCard({ index, food }) {
         src={ food.strMealThumb }
         alt={ food.strMeal }
         data-testid={ `${index}-card-img` }
+        width="200px"
       />
     </div>
   );

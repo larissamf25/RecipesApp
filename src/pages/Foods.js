@@ -1,17 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import RecipesContext from '../context/RecipesContext';
 import { fetchRecipesByIngredient,
   fetchRecipesByLetter,
   fetchRecipesByName } from '../services/searchOptionsFoods';
-import FoodCard from '../components/FoodCard';
 import fetchFoodAPI from '../services/foodAPI';
+import FoodCard from '../components/FoodCard';
 
 function Foods() {
-  const { searchBarOption,
-    searchValue, setFoodList, foodList, setSearchBarOption } = useContext(RecipesContext);
-  const [recipes, setRecipes] = useState([]);
+  const {
+    searchBarOption,
+    searchValue,
+    setSearchBarOption } = useContext(RecipesContext);
+
+  const [foodList, setFoodList] = useState([]);
+  const [recipes, setRecipes] = useState(undefined);
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -37,23 +42,30 @@ function Foods() {
     }
   }, [searchBarOption]);
 
+  const verifyRecipesLength = () => {
+    if (recipes === null) {
+      setRecipes([]);
+      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } if (recipes.length === 1) {
+      return <Redirect to={ `/foods/${recipes[0].idMeal}` } />;
+    }
+    return recipes
+      .slice(0, Number('12'))
+      .map((food, idx) => <FoodCard key={ idx } food={ food } index={ idx } />);
+  };
+
   return (
     <div>
       <Header />
       {
-        (recipes)
-          ? recipes.map((recipe) => (
-            <div key={ recipe.idMeal }>
-              <h1>{recipe.strMeal}</h1>
-              <img src={ recipe.strMealThumb } alt={ recipe.strMeal } width="200px" />
-            </div>
-          ))
-          : (
+        (!recipes && recipes !== null)
+          ? (
             <div>
               { foodList
                 .slice(0, Number('12'))
                 .map((food, idx) => <FoodCard key={ idx } food={ food } index={ idx } />)}
             </div>)
+          : verifyRecipesLength()
       }
       <Footer />
     </div>

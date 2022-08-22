@@ -3,11 +3,14 @@ export async function fetchRecipesByIngredient(ingredient) {
     const endpoint = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`;
     const data = await fetch(endpoint)
       .then((response) => response.json());
+    // console.log(data.meals);
     return data.meals;
   } catch (error) {
     console.log(error);
   }
 }
+
+// fetchRecipesByIngredient('batata');
 
 export async function fetchRecipesByLetter(letter) {
   try {

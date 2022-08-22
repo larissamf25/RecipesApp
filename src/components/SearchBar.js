@@ -2,17 +2,16 @@ import React, { useContext } from 'react';
 import RecipesContext from '../context/RecipesContext';
 
 function SearchBar() {
-  const { setSearchBarOption, searchValue } = useContext(RecipesContext);
+  const { setSearchBarOption, searchValue, setSearchValue } = useContext(RecipesContext);
 
   const verifyLetter = () => {
     const selectedOption = document
       .querySelector('input[name="radioOption"]:checked').value;
     if (searchValue.length !== 1) {
-      document.querySelector('form').reset();
+      setSearchValue('');
       return global.alert('Your search must have only 1 (one) character');
     }
     setSearchBarOption(selectedOption);
-    document.querySelector('form').reset();
   };
 
   const handleRadioOption = () => {
@@ -22,7 +21,6 @@ function SearchBar() {
       verifyLetter();
     }
     setSearchBarOption(selectedOption);
-    document.querySelector('form').reset();
   };
 
   return (
