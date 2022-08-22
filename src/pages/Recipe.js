@@ -1,13 +1,43 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { fecthFoodById, fetchFoodRecomendations } from '../services/foodAPI';
+import { fecthDrinkById, fetchDrinkRecomendations } from '../services/drinkAPI';
+import RecipeDetails from '../components/RecipeDetails';
 
 function Recipe() {
   const { id } = useParams();
-  console.log(id);
+  const [recipe, setRecipe] = useState({});
+  const [recomendations, setRecomendations] = useState([]);
+
+  const { pathname } = useLocation();
+  const lastIndexOfSlash = pathname.lastIndexOf('/');
+  const typeOfRecipe = pathname.slice(1, lastIndexOfSlash);
+  const recipeKeys = {
+    recipeName: (typeOfRecipe === 'foods') ? 'strMeal' : 'strDrink',
+    recipeImage: (typeOfRecipe === 'foods') ? 'strMealThumb' : 'strDrinkThumb',
+    recipeCategory: (typeOfRecipe === 'foods') ? 'strCategory' : 'strAlcoholic',
+  };
+
+  useEffect(() => {
+    const getRecipe = async () => {
+      if (typeOfRecipe === 'foods') {
+        setRecipe(await fecthFoodById(id));
+        setRecomendations(await fetchFoodRecomendations());
+      } else {
+        setRecipe(await fecthDrinkById(id));
+        setRecomendations(await fetchDrinkRecomendations());
+      }
+    };
+    getRecipe();
+  }, []);
+
   return (
-    <div>
-      <h1>Recipe details</h1>
-    </div>
+    <RecipeDetails
+      recipe={ recipe }
+      typeOfRecipe={ typeOfRecipe }
+      recomendations={ recomendations }
+      recipeKeys={ recipeKeys }
+    />
   );
 }
 
