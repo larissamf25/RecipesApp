@@ -48,4 +48,21 @@ describe('Testing SearchBar Component', () => {
 
     global.alert.mockClear();
   });
+
+  it('Should render all elements in SearchBar correctly', async () => {
+    render(<App />);
+
+    const searchIcon = screen.getByTestId('search-top-btn');
+    userEvent.click(searchIcon);
+    const searchBar = screen.getByTestId('search-input');
+    expect(searchBar).toBeInTheDocument();
+
+    const letterInput = screen.getByText(/first letter/i);
+    const searchBtn = screen.getByTestId('exec-search-btn');
+
+    userEvent.type(searchBar, 'a');
+    userEvent.click(letterInput);
+    userEvent.click(searchBtn);
+    expect(await screen.findByText('Nome: Apple Frangipan Tart')).toBeInTheDocument();
+  });
 });
