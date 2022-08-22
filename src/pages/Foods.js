@@ -109,12 +109,14 @@ function Foods() {
             <div>
               { localFoodList.map((food, idx) => (
                 <div
-                  data-testid={ `${idx}-recipe-card` }
                   key={ idx }
                   style={ { width: '200px', border: '1px solid red' } }
                 >
                   <Link to={ `/foods/${food.idMeal}` }>
-                    <FoodCard food={ food } index={ idx } />
+                    <FoodCard
+                      food={ food }
+                      index={ idx }
+                    />
                   </Link>
                 </div>
               ))}
