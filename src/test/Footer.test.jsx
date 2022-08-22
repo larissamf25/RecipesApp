@@ -3,7 +3,7 @@ import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 
-describe('Testing Header Component', () => {
+describe('Testing Footer Component', () => {
   it('Should render all elements in Footer correctly', () => {
     render(<App />);
 
