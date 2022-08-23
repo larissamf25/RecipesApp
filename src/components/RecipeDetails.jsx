@@ -51,8 +51,7 @@ function RecipeDetails({ recipe, typeOfRecipe, recomendations, recipeKeys }) {
         <div key={ index }>
           { typeOfRecipe === 'foods'
             ? <RecomendationFoodCard recomendation={ recomendation } index={ index } />
-            : <RecomendationDrinkCard recomendation={ recomendation } index={ index } />
-          }
+            : <RecomendationDrinkCard recomendation={ recomendation } index={ index } />}
         </div>
       )) }
     </div>
