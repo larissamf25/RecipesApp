@@ -26,6 +26,6 @@ header {
 .recomendations-container {
   background-color: red;
   display: flex;
-  width: 200px;
+  width: 360px;
   overflow-x:scroll;
 }

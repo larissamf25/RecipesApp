@@ -15,11 +15,11 @@ function RecipeDetails({ recipe, typeOfRecipe, recipeKeys }) {
   useEffect(() => {
     const getRecomendations = async () => {
       if (typeOfRecipe === 'foods') {
-        const sixRecomendations = (await fetchFoodRecomendations())
+        const sixRecomendations = (await fetchDrinkRecomendations())
           .slice(0, Number('6'));
         setRecomendations(sixRecomendations);
       } else {
-        const sixRecomendations = (await fetchDrinkRecomendations())
+        const sixRecomendations = (await fetchFoodRecomendations())
           .slice(0, Number('6'));
         setRecomendations(sixRecomendations);
       }
@@ -71,9 +71,9 @@ function RecipeDetails({ recipe, typeOfRecipe, recipeKeys }) {
         { recomendations.map((recomendation, index) => (
           <div key={ index }>
             { typeOfRecipe === 'foods'
-              ? <RecomendationFoodCard recomendation={ recomendation } index={ index } />
+              ? <RecomendationDrinkCard recomendation={ recomendation } index={ index } />
               : (
-                <RecomendationDrinkCard
+                <RecomendationFoodCard
                   recomendation={ recomendation }
                   index={ index }
                 />)}
