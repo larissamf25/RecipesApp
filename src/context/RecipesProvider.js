@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from './RecipesContext';
 
@@ -9,6 +9,8 @@ function RecipesProvider({ children }) {
   const [foodCategories, setFoodCategories] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [searchBarOption, setSearchBarOption] = useState('');
+  const [recipe, setRecipe] = useState({});
+
   return (
     <RecipesContext.Provider
       value={ {
@@ -24,6 +26,8 @@ function RecipesProvider({ children }) {
         searchBarOption,
         setSearchValue,
         setSearchBarOption,
+        recipe,
+        setRecipe,
       } }
     >
       {children}
