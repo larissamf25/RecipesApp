@@ -7,7 +7,7 @@ import Foods from './pages/Foods';
 import Drinks from './pages/Drinks';
 import Favorites from './pages/Favorites';
 import Done from './pages/Done';
-import Recipe from './pages/Recipe';
+import Recipes from './pages/Recipes';
 import RecipesProvider from './context/RecipesProvider';
 
 function App() {
@@ -17,10 +17,10 @@ function App() {
         <Switch>
           <Route path="/" component={ Login } exact />
           <Route exact path="/" component={ Login } />
-          <Route path="/foods/:id" component={ Recipe } exact />
+          <Route path="/foods/:id" component={ Recipes } exact />
           <Route exact path="/foods" component={ Foods } />
           {/* <Route exact path="/foods/:id/in-progress" component={ InProgress } /> */}
-          <Route exact path="/drinks/:id" component={ Recipe } />
+          <Route exact path="/drinks/:id" component={ Recipes } />
           {/* <Route exact path="/drinks/:id/in-progress" component={ InProgress } /> */}
           <Route exact path="/drinks" component={ Drinks } />
           <Route path="/profile" component={ Profile } />

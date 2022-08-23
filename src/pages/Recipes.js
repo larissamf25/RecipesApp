@@ -4,7 +4,7 @@ import { fecthFoodById, fetchFoodRecomendations } from '../services/foodAPI';
 import { fecthDrinkById, fetchDrinkRecomendations } from '../services/drinkAPI';
 import RecipeDetails from '../components/RecipeDetails';
 
-function Recipe() {
+function Recipes() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
   const [recomendations, setRecomendations] = useState([]);
@@ -41,4 +41,4 @@ function Recipe() {
   );
 }
 
-export default Recipe;
+export default Recipes;
