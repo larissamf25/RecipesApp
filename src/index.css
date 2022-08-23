@@ -22,3 +22,10 @@ header {
 .icons-container {
   margin-left: 10px;
 }
+
+.recomendations-container {
+  background-color: red;
+  display: flex;
+  width: 200px;
+  overflow-x:scroll;
+}

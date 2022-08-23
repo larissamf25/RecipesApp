@@ -14,10 +14,14 @@ function RecipeDetails({ recipe, typeOfRecipe, recipeKeys }) {
 
   useEffect(() => {
     const getRecomendations = async () => {
-      if (typeOfRecipe === 'drinks') {
-        setRecomendations(await fetchFoodRecomendations());
+      if (typeOfRecipe === 'foods') {
+        const sixRecomendations = (await fetchFoodRecomendations())
+          .slice(0, Number('6'));
+        setRecomendations(sixRecomendations);
       } else {
-        setRecomendations(await fetchDrinkRecomendations());
+        const sixRecomendations = (await fetchDrinkRecomendations())
+          .slice(0, Number('6'));
+        setRecomendations(sixRecomendations);
       }
     };
     getRecomendations();
@@ -63,13 +67,19 @@ function RecipeDetails({ recipe, typeOfRecipe, recipeKeys }) {
         // allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
       />}
-      { recomendations.map((recomendation, index) => (
-        <div key={ index }>
-          { typeOfRecipe === 'foods'
-            ? <RecomendationFoodCard recomendation={ recomendation } index={ index } />
-            : <RecomendationDrinkCard recomendation={ recomendation } index={ index } />}
-        </div>
-      )) }
+      <div className="recomendations-container">
+        { recomendations.map((recomendation, index) => (
+          <div key={ index }>
+            { typeOfRecipe === 'foods'
+              ? <RecomendationFoodCard recomendation={ recomendation } index={ index } />
+              : (
+                <RecomendationDrinkCard
+                  recomendation={ recomendation }
+                  index={ index }
+                />)}
+          </div>
+        )) }
+      </div>
     </div>
   );
 }
