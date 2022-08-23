@@ -3,6 +3,7 @@ import React from 'react';
 
 function RecomendationFoodCard({ recomendation, index }) {
   const { strMeal } = recomendation;
+  console.log(strMeal);
   return (
     <div data-testid={ `${index}-recomendation-card` }>{ strMeal }</div>
   );

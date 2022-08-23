@@ -1,12 +1,28 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import fixYoutubeURL from '../pages/helpers/fixYoutubeURL';
+import { fetchDrinkRecomendations } from '../services/drinkAPI';
+import { fetchFoodRecomendations } from '../services/foodAPI';
 import RecomendationDrinkCard from './RecomendationDrinkCard';
 import RecomendationFoodCard from './RecomendationFoodCard';
 
-function RecipeDetails({ recipe, typeOfRecipe, recomendations, recipeKeys }) {
+function RecipeDetails({ recipe, typeOfRecipe, recipeKeys }) {
   const { recipeName, recipeImage, recipeCategory } = recipeKeys;
-  console.log(recomendations);
+  const [recomendations, setRecomendations] = useState([]);
+
+  console.log(typeOfRecipe);
+
+  useEffect(() => {
+    const getRecomendations = async () => {
+      if (typeOfRecipe === 'drinks') {
+        setRecomendations(await fetchFoodRecomendations());
+      } else {
+        setRecomendations(await fetchDrinkRecomendations());
+      }
+    };
+    getRecomendations();
+  }, []);
+
   const listIngredients = () => {
     const maxIngredients = 20;
     const ingredients = [];
@@ -72,7 +88,6 @@ RecipeDetails.propTypes = {
     recipeImage: PropTypes.string,
     recipeCategory: PropTypes.string,
   }).isRequired,
-  recomendations: PropTypes.arrayOf(PropTypes.objects).isRequired,
   typeOfRecipe: PropTypes.string.isRequired,
 };
 

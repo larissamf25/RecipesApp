@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { fecthFoodById, fetchFoodRecomendations } from '../services/foodAPI';
-import { fecthDrinkById, fetchDrinkRecomendations } from '../services/drinkAPI';
+import { fecthFoodById } from '../services/foodAPI';
+import { fecthDrinkById } from '../services/drinkAPI';
 import RecipeDetails from '../components/RecipeDetails';
 
 function Recipes() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
-  const [recomendations, setRecomendations] = useState([]);
-
   const { pathname } = useLocation();
   const lastIndexOfSlash = pathname.lastIndexOf('/');
   const typeOfRecipe = pathname.slice(1, lastIndexOfSlash);
@@ -22,10 +20,8 @@ function Recipes() {
     const getRecipe = async () => {
       if (typeOfRecipe === 'foods') {
         setRecipe(await fecthFoodById(id));
-        setRecomendations(await fetchFoodRecomendations());
       } else {
         setRecipe(await fecthDrinkById(id));
-        setRecomendations(await fetchDrinkRecomendations());
       }
     };
     getRecipe();
@@ -35,7 +31,6 @@ function Recipes() {
     <RecipeDetails
       recipe={ recipe }
       typeOfRecipe={ typeOfRecipe }
-      recomendations={ recomendations }
       recipeKeys={ recipeKeys }
     />
   );

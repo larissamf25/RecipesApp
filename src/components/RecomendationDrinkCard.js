@@ -10,7 +10,7 @@ function RecomendationDrinkCard({ recomendation, index }) {
 
 RecomendationDrinkCard.propTypes = {
   index: PropTypes.number.isRequired,
-  recomendation: PropTypes.shape({
+  recomendation: PropTypes.arrayOf({
     strDrink: PropTypes.string,
   }).isRequired,
 };
