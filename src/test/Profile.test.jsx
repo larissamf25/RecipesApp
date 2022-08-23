@@ -19,16 +19,38 @@ describe('Testing Profile Component', () => {
 
     userEvent.click(btnSubmit);
 
+    expect(window.localStorage.getItem('user')).not.toBeNull();
+
     const profileIcon = screen.getByTestId('profile-top-btn');
     userEvent.click(profileIcon);
 
     const userEmail = screen.getByTestId('profile-email');
     expect(userEmail).toBeInTheDocument();
 
-    const doneBtn = screen.getByTestId('profile-done-btn');
-    userEvent.click(doneBtn);
+    const logout = screen.getByTestId('profile-logout-btn');
+    userEvent.click(logout);
 
-    // expect(JSON.parse(localStorage.removeItem('user'))).toEqual('');
-    // expect(localStorage.clear()).toEqual(undefined);
+    expect(window.localStorage.getItem('user')).toBeNull();
+  });
+  it('Should render all elements in Profile correctly', () => {
+    render(<App />);
+
+    const btnSubmit = screen.getByText(/login/i);
+    const emailInput = screen.getByTestId('email-input');
+    const passwordInput = screen.getByTestId('password-input');
+
+    expect(btnSubmit).toBeDisabled();
+
+    userEvent.type(emailInput, 'test@test.com');
+    userEvent.type(passwordInput, '1234567');
+    expect(btnSubmit).not.toBeDisabled();
+
+    userEvent.click(btnSubmit);
+
+    window.localStorage.clear();
+    expect(window.localStorage.getItem('user')).toBeNull();
+
+    const profileIcon = screen.getByTestId('profile-top-btn');
+    userEvent.click(profileIcon);
   });
 });
