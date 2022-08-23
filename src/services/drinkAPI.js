@@ -19,8 +19,24 @@ const fetchDrinkCategories = async () => {
   return drinkCategoriesData.drinks;
 };
 
+const fecthDrinkById = async (id) => {
+  const FOOD_LIST_URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+  const response = await fetch(FOOD_LIST_URL);
+  const data = await response.json();
+  return data.drinks[0];
+};
+
+const fetchDrinkRecomendations = async () => {
+  const RECIPE_RECOMENDATION = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  const response = await fetch(RECIPE_RECOMENDATION);
+  const data = await response.json();
+  return data.drinks;
+};
+
 export {
   fetchDrinkAPI,
   fetchDrinkCategories,
   fetchDrinkAPIByCategory,
+  fecthDrinkById,
+  fetchDrinkRecomendations,
 };
