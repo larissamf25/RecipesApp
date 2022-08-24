@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 import FavoriteButton from '../components/FavoriteButton';
 import ShareButton from '../components/ShareButton';
 import RecipesContext from '../context/RecipesContext';
@@ -9,6 +9,7 @@ import saveLocalStore from './helpers/saveLocalStore';
 
 function RecipeInProgress() {
   const { id } = useParams();
+  const history = useHistory();
   const { pathname } = useLocation();
   const typeOfRecipe = pathname[1];
   const inEnglishTypoOfRec = typeOfRecipe === 'f' ? 'meals' : 'cocktails';
@@ -29,8 +30,10 @@ function RecipeInProgress() {
     const getRecipe = async () => {
       if (typeOfRecipe === 'f') {
         setRecipe(await fecthFoodById(id));
+        setNumberOfIngredients(document.querySelectorAll('li').length);
       } else {
         setRecipe(await fecthDrinkById(id));
+        setNumberOfIngredients(document.querySelectorAll('li').length);
       }
     };
     getRecipe();
@@ -50,7 +53,6 @@ function RecipeInProgress() {
     } else {
       saveLocalStore('inProgressRecipes', locStorage);
     }
-    setNumberOfIngredients(document.querySelectorAll('li').length);
   }, []);
 
   useEffect(() => {
@@ -63,7 +65,6 @@ function RecipeInProgress() {
   }, [checkedIngredients]);
 
   const onCheckboxClick = ({ target }) => {
-    console.log(target.name);
     const newCheckedList = checkedIngredients
       .some((ingredient) => ingredient === Number(target.name))
       ? checkedIngredients.filter((ingredient) => ingredient !== Number(target.name))
@@ -101,6 +102,32 @@ function RecipeInProgress() {
     return <ul>{ingredients}</ul>;
   };
 
+  const onSaveRecipe = () => {
+    const date = new Date();
+    const mes = date.getMonth() + 1;
+    const dia = date.getDate();
+    const ano = date.getFullYear();
+    const newRecipe = {
+      id,
+      type: typeOfRecipe === 'f' ? 'foods' : 'drinks',
+      nationality: typeOfRecipe === 'f' ? recipe.strArea : '',
+      category: recipe.strCategory,
+      alcoholicOrNot: typeOfRecipe === 'd' ? recipe.strAlcoholic : '',
+      name: recipe[recipeKeys.recipeName],
+      image: recipe[recipeKeys.recipeImage],
+      doneDate: `${dia}/${mes}/${ano}`,
+      tags: recipe.strTags ? recipe.strTags.split(',') : [],
+    };
+    if (!JSON.parse(localStorage.getItem('doneRecipes'))) {
+      saveLocalStore('doneRecipes', []);
+    }
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (!doneRecipes.some((currentRecipe) => currentRecipe.id === id)) {
+      saveLocalStore('doneRecipes', [...doneRecipes, newRecipe]);
+    }
+    history.push('/done-recipes');
+  };
+
   return (
     <div>
       <h2 data-testid="recipe-title">{ recipe[recipeKeys.recipeName] }</h2>
@@ -120,10 +147,11 @@ function RecipeInProgress() {
         data-testid="finish-recipe-btn"
         disabled={ checkedIngredients.length !== numberOfIngredients
           || numberOfIngredients === 0 }
-        onClick={ () => {} }
+        onClick={ onSaveRecipe }
       >
         Finish Recipe
       </button>
+
     </div>
   );
 }
