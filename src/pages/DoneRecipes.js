@@ -15,7 +15,7 @@ function DoneRecipes() {
   }, []);
 
   const onShareClick = (type, id) => {
-    copy(`http://localhost:3000/${type}/${id}`);
+    copy(`http://localhost:3000/${type}s/${id}`);
     setShareClick(true);
   };
 
@@ -53,7 +53,7 @@ function DoneRecipes() {
               alcoholicOrNot, image, name, tags, type } = recipe;
             return (
               <div key={ index }>
-                <Link to={ `/${type}/${id}` }>
+                <Link to={ `/${type}s/${id}` }>
                   <img
                     data-testid={ `${index}-horizontal-image` }
                     width="200px"
@@ -61,7 +61,7 @@ function DoneRecipes() {
                     alt={ name }
                   />
                 </Link>
-                <Link to={ `/${type}/${id}` }>
+                <Link to={ `/${type}s/${id}` }>
                   <p data-testid={ `${index}-horizontal-name` }>
                     {name}
                   </p>

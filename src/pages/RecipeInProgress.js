@@ -109,7 +109,7 @@ function RecipeInProgress() {
     const ano = date.getFullYear();
     const newRecipe = {
       id,
-      type: typeOfRecipe === 'f' ? 'foods' : 'drinks',
+      type: typeOfRecipe === 'f' ? 'food' : 'drink',
       nationality: typeOfRecipe === 'f' ? recipe.strArea : '',
       category: recipe.strCategory,
       alcoholicOrNot: typeOfRecipe !== 'f' ? recipe.strAlcoholic : '',
