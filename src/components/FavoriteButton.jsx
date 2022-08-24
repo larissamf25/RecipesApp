@@ -33,7 +33,7 @@ function FavoriteButton() {
       saveLocalStore('favoriteRecipes', [...currentFavoriteList,
         {
           id,
-          type: typeOfRecipe.slice(0, Number('-1')),
+          type: typeOfRecipe === 'f' ? 'food' : 'drink',
           nationality: recipe.strArea ? recipe.strArea : '',
           category: recipe.strCategory,
           alcoholicOrNot: recipe.strAlcoholic ? recipe.strAlcoholic : '',

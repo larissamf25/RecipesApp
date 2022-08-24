@@ -5,31 +5,25 @@ import ShareButton from '../components/ShareButton';
 import RecipesContext from '../context/RecipesContext';
 import { fecthDrinkById } from '../services/drinkAPI';
 import { fecthFoodById } from '../services/foodAPI';
+import saveLocalStore from './helpers/saveLocalStore';
 
 function RecipeInProgress() {
   const { id } = useParams();
   const { pathname } = useLocation();
   const typeOfRecipe = pathname[1];
+  const inEnglishTypoOfRec = typeOfRecipe === 'f' ? 'meals' : 'cocktails';
   const recipeKeys = {
     recipeName: (typeOfRecipe === 'f') ? 'strMeal' : 'strDrink',
     recipeImage: (typeOfRecipe === 'f') ? 'strMealThumb' : 'strDrinkThumb',
     recipeCategory: (typeOfRecipe === 'f') ? 'strCategory' : 'strAlcoholic',
   };
+  const [numberOfIngredients, setNumberOfIngredients] = useState(0);
   const {
     recipe,
     setRecipe,
   } = useContext(RecipesContext);
 
-  const initialIngredientStateMaker = () => {
-    const state = {};
-    for (let i = 0; i <= Number('19'); i += 1) {
-      state[`strIngredient${i + 1}`] = false;
-    }
-    return state;
-  };
-
-  const [checkedIngredients, setCheckedIngredientes] = (
-    useState(initialIngredientStateMaker()));
+  const [checkedIngredients, setCheckedIngredientes] = useState([]);
 
   useEffect(() => {
     const getRecipe = async () => {
@@ -40,17 +34,41 @@ function RecipeInProgress() {
       }
     };
     getRecipe();
+
+    if (!JSON.parse(localStorage.getItem('inProgressRecipes'))) {
+      saveLocalStore('inProgressRecipes', { cocktails: {}, meals: {} });
+    }
+    let locStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const savedCheckedIngredientsById = JSON
+      .parse(localStorage.getItem('inProgressRecipes'))[inEnglishTypoOfRec][id];
+    locStorage = {
+      ...locStorage,
+      [inEnglishTypoOfRec]: {
+        ...locStorage[inEnglishTypoOfRec], [id]: [] } };
+    if (savedCheckedIngredientsById) {
+      setCheckedIngredientes(savedCheckedIngredientsById);
+    } else {
+      saveLocalStore('inProgressRecipes', locStorage);
+    }
+    setNumberOfIngredients(document.querySelectorAll('li').length);
   }, []);
 
   useEffect(() => {
-    // Sincronizar Local Storage com checkedIngredients
-    console.log(checkedIngredients);
+    let locStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    locStorage = {
+      ...locStorage,
+      [inEnglishTypoOfRec]: {
+        ...locStorage[inEnglishTypoOfRec], [id]: checkedIngredients } };
+    saveLocalStore('inProgressRecipes', locStorage);
   }, [checkedIngredients]);
 
   const onCheckboxClick = ({ target }) => {
     console.log(target.name);
-    setCheckedIngredientes({
-      ...checkedIngredients, [target.name]: !checkedIngredients[target.name] });
+    const newCheckedList = checkedIngredients
+      .some((ingredient) => ingredient === Number(target.name))
+      ? checkedIngredients.filter((ingredient) => ingredient !== Number(target.name))
+      : [...checkedIngredients, Number(target.name)];
+    setCheckedIngredientes(newCheckedList);
   };
 
   const listIngredients = () => {
@@ -66,11 +84,16 @@ function RecipeInProgress() {
             <input
               type="checkbox"
               onChange={ onCheckboxClick }
-              name={ `strIngredient${index}` }
-              checked={ checkedIngredients[`strIngredient${index}`] }
+              name={ index }
+              checked={ checkedIngredients.includes(index) }
             />
-            <span>{ recipe[`strMeasure${index}`] }</span>
-            <span>{ recipe[`strIngredient${index}`] }</span>
+            <span
+              style={ { textDecoration: checkedIngredients.includes(index)
+                ? 'line-through'
+                : 'none' } }
+            >
+              { `${recipe[`strMeasure${index}`]} ${recipe[`strIngredient${index}`]}` }
+            </span>
           </li>,
         );
       }
@@ -95,9 +118,11 @@ function RecipeInProgress() {
       <button
         type="button"
         data-testid="finish-recipe-btn"
+        disabled={ checkedIngredients.length !== numberOfIngredients
+          || numberOfIngredients === 0 }
         onClick={ () => {} }
       >
-        Finalizar Receita
+        Finish Recipe
       </button>
     </div>
   );

@@ -7,8 +7,9 @@ const copy = require('clipboard-copy');
 function ShareButton() {
   const [shareClick, setShareClick] = useState(false);
   const { pathname } = useLocation();
+  const ajustedPath = pathname.replace('/in-progress', '');
   const onShareClick = () => {
-    copy(`http://localhost:3000${pathname}`);
+    copy(`http://localhost:3000${ajustedPath}`);
     setShareClick(true);
   };
   return (
