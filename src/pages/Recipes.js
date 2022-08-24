@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import '../style/Footer.css';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import { fecthFoodById } from '../services/foodAPI';

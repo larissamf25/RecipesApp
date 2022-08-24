@@ -20,6 +20,17 @@ function RecipeInProgress() {
     setRecipe,
   } = useContext(RecipesContext);
 
+  const initialIngredientStateMaker = () => {
+    const state = {};
+    for (let i = 0; i <= Number('19'); i += 1) {
+      state[`strIngredient${i + 1}`] = false;
+    }
+    return state;
+  };
+
+  const [checkedIngredients, setCheckedIngredientes] = (
+    useState(initialIngredientStateMaker()));
+
   useEffect(() => {
     const getRecipe = async () => {
       if (typeOfRecipe === 'f') {
@@ -31,6 +42,19 @@ function RecipeInProgress() {
     getRecipe();
   }, []);
 
+  useEffect(() => {
+    // Sincronizar Local Storage com checkedIngredients
+    console.log(checkedIngredients);
+  }, [checkedIngredients]);
+
+  const onCheckboxClick = ({ target }) => {
+    console.log(target.name);
+    setCheckedIngredientes({
+      ...checkedIngredients, [target.name]: !checkedIngredients[target.name] });
+  };
+
+  console.log(recipe);
+
   const listIngredients = () => {
     const maxIngredients = 20;
     const ingredients = [];
@@ -41,7 +65,12 @@ function RecipeInProgress() {
             data-testid={ `${index - 1}-ingredient-step` }
             key={ index }
           >
-            <input type="checkbox" onChange={ () => {} } checked={ () => {} } />
+            <input
+              type="checkbox"
+              onChange={ onCheckboxClick }
+              name={ `strIngredient${index}` }
+              checked={ checkedIngredients[`strIngredient${index}`] }
+            />
             <span>{ recipe[`strMeasure${index}`] }</span>
             <span>{ recipe[`strIngredient${index}`] }</span>
           </li>,
