@@ -44,7 +44,7 @@ function DoneRecipes() {
         Drinks
       </button>
       <section>
-        { doneRecipesList
+        { doneRecipesList && doneRecipesList
           .filter((currentrecipe) => (
             filter === 'All' ? true : currentrecipe.type === filter
           ))
