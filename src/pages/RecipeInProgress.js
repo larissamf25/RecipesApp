@@ -29,8 +29,10 @@ function RecipeInProgress() {
     const getRecipe = async () => {
       if (typeOfRecipe === 'f') {
         setRecipe(await fecthFoodById(id));
+        setNumberOfIngredients(document.querySelectorAll('li').length);
       } else {
         setRecipe(await fecthDrinkById(id));
+        setNumberOfIngredients(document.querySelectorAll('li').length);
       }
     };
     getRecipe();
@@ -50,7 +52,6 @@ function RecipeInProgress() {
     } else {
       saveLocalStore('inProgressRecipes', locStorage);
     }
-    setNumberOfIngredients(document.querySelectorAll('li').length);
   }, []);
 
   useEffect(() => {
@@ -119,7 +120,7 @@ function RecipeInProgress() {
         type="button"
         data-testid="finish-recipe-btn"
         disabled={ checkedIngredients.length !== numberOfIngredients
-          || numberOfIngredients === 0 }
+          || checkedIngredients.length === 0 }
         onClick={ () => {} }
       >
         Finish Recipe
