@@ -112,7 +112,7 @@ function RecipeInProgress() {
       type: typeOfRecipe === 'f' ? 'foods' : 'drinks',
       nationality: typeOfRecipe === 'f' ? recipe.strArea : '',
       category: recipe.strCategory,
-      alcoholicOrNot: typeOfRecipe === 'd' ? recipe.strAlcoholic : '',
+      alcoholicOrNot: typeOfRecipe !== 'f' ? recipe.strAlcoholic : '',
       name: recipe[recipeKeys.recipeName],
       image: recipe[recipeKeys.recipeImage],
       doneDate: `${dia}/${mes}/${ano}`,

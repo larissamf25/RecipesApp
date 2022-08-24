@@ -50,7 +50,7 @@ function DoneRecipes() {
           ))
           .map((recipe, index) => {
             const { category, doneDate, nationality, id,
-              image, name, tags, type } = recipe;
+              alcoholicOrNot, image, name, tags, type } = recipe;
             return (
               <div key={ index }>
                 <Link to={ `/${type}/${id}` }>
@@ -69,7 +69,9 @@ function DoneRecipes() {
                 <p
                   data-testid={ `${index}-horizontal-top-text` }
                 >
-                  {`${nationality} - ${category}`}
+                  { alcoholicOrNot === ''
+                    ? `${nationality} - ${category}`
+                    : alcoholicOrNot }
                 </p>
                 <p data-testid={ `${index}-horizontal-done-date` }>{doneDate}</p>
                 <button
