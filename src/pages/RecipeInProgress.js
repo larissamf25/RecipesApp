@@ -53,8 +53,6 @@ function RecipeInProgress() {
       ...checkedIngredients, [target.name]: !checkedIngredients[target.name] });
   };
 
-  console.log(recipe);
-
   const listIngredients = () => {
     const maxIngredients = 20;
     const ingredients = [];
@@ -79,7 +77,7 @@ function RecipeInProgress() {
     }
     return <ul>{ingredients}</ul>;
   };
-  console.log(id);
+
   return (
     <div>
       <h2 data-testid="recipe-title">{ recipe[recipeKeys.recipeName] }</h2>
