@@ -85,7 +85,7 @@ function DoneRecipes() {
                     alt="Share Recipe"
                   />
                 </button>
-                {shareClick && <span>Link copied!</span>}
+                {shareClick && <span data-testid="linkCopied">Link copied!</span>}
                 <ul>
                   { tags.slice(0, 2).map((tag, idx) => (
                     <li
