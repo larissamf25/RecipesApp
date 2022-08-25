@@ -3,11 +3,11 @@ import Header from '../components/Header';
 import SavedRecipes from '../components/SavedRecipes';
 import RecipesContext from '../context/RecipesContext';
 
-function DoneRecipes() {
-  const { setDoneRecipesList } = useContext(RecipesContext);
+function FavoriteRecipes() {
+  const { setFavoriteRecipesList } = useContext(RecipesContext);
 
   useEffect(() => {
-    setDoneRecipesList(JSON.parse(localStorage.getItem('doneRecipes')));
+    setFavoriteRecipesList(JSON.parse(localStorage.getItem('favoriteRecipes')));
   }, []);
 
   return (
@@ -18,4 +18,4 @@ function DoneRecipes() {
   );
 }
 
-export default DoneRecipes;
+export default FavoriteRecipes;

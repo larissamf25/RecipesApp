@@ -37,6 +37,7 @@ function RecipeInProgress() {
       }
     };
     getRecipe();
+    console.log(recipe);
 
     if (!JSON.parse(localStorage.getItem('inProgressRecipes'))) {
       saveLocalStore('inProgressRecipes', { cocktails: {}, meals: {} });
@@ -138,7 +139,7 @@ function RecipeInProgress() {
         data-testid="recipe-photo"
         width="200px"
       />
-      <FavoriteButton />
+      <FavoriteButton recipe={ recipe } dataTestId="favorite-btn" />
       <ShareButton />
       <p data-testid="recipe-category">{ recipe[recipeKeys.recipeCategory]}</p>
       {listIngredients()}

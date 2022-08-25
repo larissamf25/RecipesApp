@@ -14,7 +14,6 @@ function Recipes() {
     setRecipe,
   } = useContext(RecipesContext);
   const { id } = useParams();
-  // const [recipe, setRecipe] = useState({});
   const { pathname } = useLocation();
   const lastIndexOfSlash = pathname.lastIndexOf('/');
   const typeOfRecipe = pathname.slice(1, lastIndexOfSlash);
@@ -51,7 +50,7 @@ function Recipes() {
         Start Recipe
       </Link>
       <ShareButton />
-      <FavoriteButton />
+      <FavoriteButton recipe={ recipe } dataTestId="favorite-btn" />
     </>
   );
 }

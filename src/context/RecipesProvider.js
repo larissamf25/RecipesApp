@@ -10,6 +10,8 @@ function RecipesProvider({ children }) {
   const [searchValue, setSearchValue] = useState('');
   const [searchBarOption, setSearchBarOption] = useState('');
   const [recipe, setRecipe] = useState({});
+  const [favoriteRecipesList, setFavoriteRecipesList] = useState([]);
+  const [doneRecipesList, setDoneRecipesList] = useState([]);
 
   return (
     <RecipesContext.Provider
@@ -28,6 +30,10 @@ function RecipesProvider({ children }) {
         setSearchBarOption,
         recipe,
         setRecipe,
+        favoriteRecipesList,
+        setFavoriteRecipesList,
+        doneRecipesList,
+        setDoneRecipesList,
       } }
     >
       {children}
