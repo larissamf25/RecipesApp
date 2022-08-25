@@ -37,7 +37,6 @@ function RecipeInProgress() {
       }
     };
     getRecipe();
-    console.log(recipe);
 
     if (!JSON.parse(localStorage.getItem('inProgressRecipes'))) {
       saveLocalStore('inProgressRecipes', { cocktails: {}, meals: {} });

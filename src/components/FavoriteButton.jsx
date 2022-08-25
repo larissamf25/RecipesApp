@@ -11,7 +11,6 @@ function FavoriteButton({ recipe, dataTestId }) {
   useEffect(() => {
     setFavoriteRecipesList(JSON.parse(localStorage.getItem('favoriteRecipes')));
   }, []);
-  console.log(recipe);
   const { id: idFromParams } = useParams();
   const id = recipe.id ? recipe.id : idFromParams;
   const { pathname } = useLocation();

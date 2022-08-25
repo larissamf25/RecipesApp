@@ -12,6 +12,7 @@ function RecipesProvider({ children }) {
   const [recipe, setRecipe] = useState({});
   const [favoriteRecipesList, setFavoriteRecipesList] = useState([]);
   const [doneRecipesList, setDoneRecipesList] = useState([]);
+  const [inProgressRecipes, setInProgressRecipes] = useState({ cocktails: {}, meals: {} });
 
   return (
     <RecipesContext.Provider
@@ -34,6 +35,8 @@ function RecipesProvider({ children }) {
         setFavoriteRecipesList,
         doneRecipesList,
         setDoneRecipesList,
+        inProgressRecipes,
+        setInProgressRecipes,
       } }
     >
       {children}

@@ -7,16 +7,23 @@ import RecipeDetails from '../components/RecipeDetails';
 import FavoriteButton from '../components/FavoriteButton';
 import ShareButton from '../components/ShareButton';
 import RecipesContext from '../context/RecipesContext';
+import saveLocalStore from './helpers/saveLocalStore';
 
 function Recipes() {
   const {
     recipe,
     setRecipe,
+    doneRecipesList,
+    setDoneRecipesList,
+    inProgressRecipes,
+    setInProgressRecipes,
   } = useContext(RecipesContext);
+
   const { id } = useParams();
   const { pathname } = useLocation();
   const lastIndexOfSlash = pathname.lastIndexOf('/');
   const typeOfRecipe = pathname.slice(1, lastIndexOfSlash);
+  const typeByMealAndCocktails = (typeOfRecipe === 'foods') ? 'meals' : 'cocktails';
   const recipeKeys = {
     recipeName: (typeOfRecipe === 'foods') ? 'strMeal' : 'strDrink',
     recipeImage: (typeOfRecipe === 'foods') ? 'strMealThumb' : 'strDrinkThumb',
@@ -32,6 +39,12 @@ function Recipes() {
       }
     };
     getRecipe();
+    setDoneRecipesList(JSON.parse(localStorage.getItem('doneRecipes')));
+    if (JSON.parse(localStorage.getItem('inProgressRecipes'))) {
+      setInProgressRecipes(JSON.parse(localStorage.getItem('inProgressRecipes')));
+    } else {
+      saveLocalStore('inProgressRecipes', inProgressRecipes);
+    }
   }, []);
 
   return (
@@ -41,14 +54,19 @@ function Recipes() {
         typeOfRecipe={ typeOfRecipe }
         recipeKeys={ recipeKeys }
       />
-      <Link
-        className="main-footer"
-        to={ typeOfRecipe === 'foods'
-          ? `/foods/${id}/in-progress` : `/drinks/${id}/in-progress` }
-        data-testid="start-recipe-btn"
-      >
-        Start Recipe
-      </Link>
+      { (!doneRecipesList || !doneRecipesList
+        .some((currentRecipe) => currentRecipe.id === id))
+        && (
+          <Link
+            className="main-footer"
+            to={ typeOfRecipe === 'foods'
+              ? `/foods/${id}/in-progress` : `/drinks/${id}/in-progress` }
+            data-testid="start-recipe-btn"
+          >
+            { Object.keys(inProgressRecipes[typeByMealAndCocktails]).includes(id)
+              ? 'Continue Recipe' : 'Start Recipe' }
+          </Link>
+        )}
       <ShareButton />
       <FavoriteButton recipe={ recipe } dataTestId="favorite-btn" />
     </>
