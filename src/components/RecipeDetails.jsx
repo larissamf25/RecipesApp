@@ -10,7 +10,7 @@ function RecipeDetails({ recipe, typeOfRecipe, recipeKeys }) {
   const { recipeName, recipeImage, recipeCategory } = recipeKeys;
   const [recomendations, setRecomendations] = useState([]);
 
-  console.log(typeOfRecipe);
+  // console.log(typeOfRecipe);
 
   useEffect(() => {
     const getRecomendations = async () => {

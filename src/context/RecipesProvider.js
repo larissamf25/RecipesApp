@@ -9,6 +9,13 @@ function RecipesProvider({ children }) {
   const [foodCategories, setFoodCategories] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [searchBarOption, setSearchBarOption] = useState('');
+  const [recipe, setRecipe] = useState({});
+  const [favoriteRecipesList, setFavoriteRecipesList] = useState([]);
+  const [doneRecipesList, setDoneRecipesList] = useState([]);
+  const [inProgressRecipes, setInProgressRecipes] = useState(
+    { cocktails: {}, meals: {} },
+  );
+
   return (
     <RecipesContext.Provider
       value={ {
@@ -24,6 +31,14 @@ function RecipesProvider({ children }) {
         searchBarOption,
         setSearchValue,
         setSearchBarOption,
+        recipe,
+        setRecipe,
+        favoriteRecipesList,
+        setFavoriteRecipesList,
+        doneRecipesList,
+        setDoneRecipesList,
+        inProgressRecipes,
+        setInProgressRecipes,
       } }
     >
       {children}
