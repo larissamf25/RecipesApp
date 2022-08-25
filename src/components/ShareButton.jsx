@@ -20,7 +20,7 @@ function ShareButton() {
         onClick={ onShareClick }
         style={ { margin: '20px' } }
       >
-        <img src={ ShareImg } alt="Share Recipe" />
+        <img src={ ShareImg } data-testid="share-img" alt="Share Recipe" />
       </button>
       {shareClick && <span>Link copied!</span>}
     </>

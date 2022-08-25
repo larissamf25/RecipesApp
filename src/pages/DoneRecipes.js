@@ -32,14 +32,14 @@ function DoneRecipes() {
       <button
         type="button"
         data-testid="filter-by-food-btn"
-        onClick={ () => setFilter('foods') }
+        onClick={ () => setFilter('food') }
       >
-        Food
+        Foods
       </button>
       <button
         type="button"
         data-testid="filter-by-drink-btn"
-        onClick={ () => setFilter('drinks') }
+        onClick={ () => setFilter('drink') }
       >
         Drinks
       </button>
@@ -85,7 +85,7 @@ function DoneRecipes() {
                     alt="Share Recipe"
                   />
                 </button>
-                {shareClick && <span>Link copied!</span>}
+                {shareClick && <span data-testid="linkCopied">Link copied!</span>}
                 <ul>
                   { tags.slice(0, 2).map((tag, idx) => (
                     <li
