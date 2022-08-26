@@ -12,17 +12,6 @@ code {
     monospace;
 }
 
-header {
-  display: flex;
-  background-color: rgb(147, 147, 214);
-  align-items: center;
-  justify-content: center;
-}
-
-.icons-container {
-  margin-left: 10px;
-}
-
 .recomendations-container {
   background-color: red;
   display: flex;

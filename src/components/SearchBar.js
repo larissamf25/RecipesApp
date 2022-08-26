@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import RecipesContext from '../context/RecipesContext';
+import '../style/Header.css';
 
 function SearchBar() {
   const { setSearchBarOption, searchValue, setSearchValue } = useContext(RecipesContext);
@@ -27,7 +28,6 @@ function SearchBar() {
     <div className="searchbar-container">
       <form>
         <label htmlFor="ingredient-search">
-          Ingredient
           <input
             type="radio"
             data-testid="ingredient-search-radio"
@@ -35,10 +35,10 @@ function SearchBar() {
             id="ingredient-search"
             name="radioOption"
           />
+          Ingredient
         </label>
 
         <label htmlFor="name-search">
-          Name
           <input
             type="radio"
             data-testid="name-search-radio"
@@ -46,10 +46,10 @@ function SearchBar() {
             id="name-search"
             name="radioOption"
           />
+          Name
         </label>
 
         <label htmlFor="letter-search">
-          First Letter
           <input
             type="radio"
             data-testid="first-letter-search-radio"
@@ -57,6 +57,7 @@ function SearchBar() {
             id="letter-search"
             name="radioOption"
           />
+          First Letter
         </label>
       </form>
       <button

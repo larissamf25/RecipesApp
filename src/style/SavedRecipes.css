@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+}
+
+.saved-recipes-page {
+    background-color: #E3DBBF;
+}
+
+.saved-recipes-page .btns-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.recipes-container .recipe-card {
+    display: flex;
+}
+
+.recipes-container .recipe-card .recipe-infos {
+    color: black;
+    padding-left: 20px;
+    text-decoration: none;
+}
+
+.recipes-container .recipe-card .recipe-infos a {
+  color: black;
+  text-decoration: none;
+}

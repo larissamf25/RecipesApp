@@ -5,8 +5,6 @@ function FoodCard({ index, food }) {
   return (
     <div data-testid={ `${index}-recipe-card` }>
       <p data-testid={ `${index}-card-name` }>
-        Nome:
-        {' '}
         { food.strMeal }
       </p>
       <img

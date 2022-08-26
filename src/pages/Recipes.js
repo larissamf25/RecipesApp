@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import '../style/Footer.css';
+import '../style/Recipes.css';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import { fecthFoodById } from '../services/foodAPI';
 import { fecthDrinkById } from '../services/drinkAPI';
@@ -48,7 +49,7 @@ function Recipes() {
   }, []);
 
   return (
-    <>
+    <div>
       <RecipeDetails
         recipe={ recipe }
         typeOfRecipe={ typeOfRecipe }
@@ -69,7 +70,7 @@ function Recipes() {
         )}
       <ShareButton />
       <FavoriteButton recipe={ recipe } dataTestId="favorite-btn" />
-    </>
+    </div>
   );
 }
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import '../style/Login.css';
 
 function Login() {
   const [email, setEmail] = useState();
@@ -40,32 +41,35 @@ function Login() {
   }, [email, password]);
 
   return (
-    <div>
-      <input
-        type="text"
-        data-testid="email-input"
-        placeholder="email"
-        name="email"
-        onChange={ handleChange }
-        value={ email }
-      />
-      <input
-        type="password"
-        data-testid="password-input"
-        placeholder="password"
-        name="password"
-        onChange={ handleChange }
-        value={ password }
-      />
-      <button
-        type="button"
-        data-testid="login-submit-btn"
-        placeholder="email"
-        disabled={ disabledBtn }
-        onClick={ handleSubmitBtn }
-      >
-        login
-      </button>
+    <div className="login-page">
+      <main className="login-container">
+        <p>Recipe App</p>
+        <input
+          type="text"
+          data-testid="email-input"
+          placeholder="email"
+          name="email"
+          onChange={ handleChange }
+          value={ email }
+        />
+        <input
+          type="password"
+          data-testid="password-input"
+          placeholder="password"
+          name="password"
+          onChange={ handleChange }
+          value={ password }
+        />
+        <button
+          type="button"
+          data-testid="login-submit-btn"
+          placeholder="email"
+          disabled={ disabledBtn }
+          onClick={ handleSubmitBtn }
+        >
+          login
+        </button>
+      </main>
     </div>
   );
 }

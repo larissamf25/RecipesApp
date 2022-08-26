@@ -5,7 +5,7 @@ import RecipesContext from '../context/RecipesContext';
 import { fetchFoodAPI,
   fetchFoodAPIByCategory,
   fetchFoodCategories } from '../services/foodAPI';
-import '../css/Foods.css';
+import '../style/Recipes.css';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { fetchRecipesByIngredient,
@@ -79,7 +79,7 @@ function Foods() {
   };
 
   return (
-    <div>
+    <div className="recipes-page">
       <Header />
       <div className="categories-container">
         { foodCategories
@@ -106,11 +106,11 @@ function Foods() {
       {
         (!recipes && recipes !== null)
           ? (
-            <div>
+            <div className="recipes-container">
               { localFoodList.map((food, idx) => (
                 <div
+                  className="recipe-card"
                   key={ idx }
-                  style={ { width: '200px', border: '1px solid red' } }
                 >
                   <Link to={ `/foods/${food.idMeal}` }>
                     <FoodCard
