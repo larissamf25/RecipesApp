@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import ShareImg from '../images/shareIcon.svg';
+import { BiShareAlt } from 'react-icons/bi';
+import { useEffect } from 'react';
 
 const copy = require('clipboard-copy');
 
 function ShareButton() {
   const [shareClick, setShareClick] = useState(false);
+  const [timer, setTimer] = useState(0);
   const { pathname } = useLocation();
   const ajustedPath = pathname.replace('/in-progress', '');
   const onShareClick = () => {
     copy(`http://localhost:3000${ajustedPath}`);
+    setTimer(Number('3'));
     setShareClick(true);
   };
+
+  useEffect(() => {
+    if (timer > 0) setTimeout(() => setTimer(timer - 1), Number('1000'));
+  });
+
   return (
     <>
       <button
@@ -20,9 +28,9 @@ function ShareButton() {
         onClick={ onShareClick }
         style={ { margin: '20px' } }
       >
-        <img src={ ShareImg } data-testid="share-img" alt="Share Recipe" />
+        <BiShareAlt fontSize="30px" color="black" />
       </button>
-      {shareClick && <span>Link copied!</span>}
+      {(shareClick && timer !== 0) && <span id="copied-popUp">Link copied!</span>}
     </>
   );
 }

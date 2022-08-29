@@ -82,6 +82,16 @@ function Foods() {
     <div className="recipes-page">
       <Header />
       <div className="categories-container">
+        <button
+          type="button"
+          name="All"
+          onClick={ categoryFilter }
+          id={ currentCategory === 'All'
+            && 'category-selected' }
+          data-testid="All-category-filter"
+        >
+          All
+        </button>
         { foodCategories
           .slice(0, Number('5')).map((category, idx) => (
             <button
@@ -89,19 +99,13 @@ function Foods() {
               key={ idx }
               name={ category.strCategory }
               onClick={ categoryFilter }
+              id={ currentCategory === category.strCategory
+                && 'category-selected' }
               data-testid={ `${category.strCategory}-category-filter` }
             >
               { category.strCategory }
             </button>
           ))}
-        <button
-          type="button"
-          name="All"
-          onClick={ categoryFilter }
-          data-testid="All-category-filter"
-        >
-          All
-        </button>
       </div>
       {
         (!recipes && recipes !== null)

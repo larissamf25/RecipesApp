@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
+import { FaHeart } from 'react-icons/fa';
+import { FiHeart } from 'react-icons/fi';
 import FavHeart from '../images/blackHeartIcon.svg';
 import NotFavHeart from '../images/whiteHeartIcon.svg';
 import saveLocalStore from '../pages/helpers/saveLocalStore';
@@ -51,13 +53,9 @@ function FavoriteButton({ recipe, dataTestId }) {
     >
       {favoriteRecipesList && favoriteRecipesList
         .some((favItem) => favItem.id === id)
-        ? <img src={ FavHeart } alt="Receita Favoritada" data-testid={ dataTestId } />
+        ? <FaHeart font-size="30px" color="black" />
         : (
-          <img
-            src={ NotFavHeart }
-            alt="Receita não Favoritada"
-            data-testid={ dataTestId }
-          />
+          <FiHeart font-size="30px" color="black" />
         )}
     </button>
   );

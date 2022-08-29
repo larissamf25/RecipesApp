@@ -59,7 +59,6 @@ function Header() {
         appersButton
         && (
           <div className="teste">
-            <hr />
             <input
               placeholder="Search for a recipe"
               data-testid="search-input"

@@ -12,7 +12,6 @@ function RecomendationFoodCard({ recomendation, index }) {
 
       </p>
       <img
-        width="190px"
         src={ strMealThumb }
         alt={ strMeal }
       />

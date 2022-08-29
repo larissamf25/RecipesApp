@@ -5,6 +5,8 @@ import { fetchDrinkRecomendations } from '../services/drinkAPI';
 import { fetchFoodRecomendations } from '../services/foodAPI';
 import RecomendationDrinkCard from './RecomendationDrinkCard';
 import RecomendationFoodCard from './RecomendationFoodCard';
+import ShareButton from './ShareButton';
+import FavoriteButton from './FavoriteButton';
 
 function RecipeDetails({ recipe, typeOfRecipe, recipeKeys }) {
   const { recipeName, recipeImage, recipeCategory } = recipeKeys;
@@ -47,29 +49,34 @@ function RecipeDetails({ recipe, typeOfRecipe, recipeKeys }) {
   };
   return (
     <div>
-      <h1 data-testid="recipe-title">{ recipe[recipeName] }</h1>
       <img
         data-testid="recipe-photo"
-        style={ { width: '150px' } }
         src={ recipe[recipeImage] }
         alt={ recipe[recipeName] }
       />
-      <p data-testid="recipe-category">{recipe[recipeCategory]}</p>
-      <p data-testid="instructions">{ recipe.strInstructions }</p>
-      { listIngredients() }
+      <div className="recipe-infos">
+        <div className="icons-container">
+          <FavoriteButton recipe={ recipe } dataTestId="favorite-btn" />
+          <ShareButton />
+        </div>
+        <h1 data-testid="recipe-title">{ recipe[recipeName] }</h1>
+        <p id="recipe-category" data-testid="recipe-category">{recipe[recipeCategory]}</p>
+        <p data-testid="instructions">{ recipe.strInstructions }</p>
+        { listIngredients() }
+      </div>
       { recipe.strYoutube && <iframe
         data-testid="video"
-        width="560"
-        height="315"
+        width="100%"
+        height="200"
         src={ fixYoutubeURL(recipe.strYoutube) }
         title="YouTube video player"
         rameborder="0"
-        // allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
       />}
+      <p id="recomendations-title">Recomendations</p>
       <div className="recomendations-container">
         { recomendations.map((recomendation, index) => (
-          <div key={ index }>
+          <div key={ index } className="recomendation-card">
             { typeOfRecipe === 'foods'
               ? <RecomendationDrinkCard recomendation={ recomendation } index={ index } />
               : (

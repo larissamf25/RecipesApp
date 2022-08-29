@@ -5,8 +5,6 @@ import { useLocation, useParams, Link } from 'react-router-dom';
 import { fecthFoodById } from '../services/foodAPI';
 import { fecthDrinkById } from '../services/drinkAPI';
 import RecipeDetails from '../components/RecipeDetails';
-import FavoriteButton from '../components/FavoriteButton';
-import ShareButton from '../components/ShareButton';
 import RecipesContext from '../context/RecipesContext';
 import saveLocalStore from './helpers/saveLocalStore';
 
@@ -49,7 +47,7 @@ function Recipes() {
   }, []);
 
   return (
-    <div>
+    <div className="recipe-details">
       <RecipeDetails
         recipe={ recipe }
         typeOfRecipe={ typeOfRecipe }
@@ -68,8 +66,6 @@ function Recipes() {
               ? 'Continue Recipe' : 'Start Recipe' }
           </Link>
         )}
-      <ShareButton />
-      <FavoriteButton recipe={ recipe } dataTestId="favorite-btn" />
     </div>
   );
 }

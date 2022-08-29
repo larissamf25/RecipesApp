@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { RiDeleteBin6Line } from 'react-icons/ri';
+import { BiShareAlt } from 'react-icons/bi';
 import '../style/SavedRecipes.css';
 import RecipesContext from '../context/RecipesContext';
-import ShareImg from '../images/shareIcon.svg';
 import saveLocalStore from '../pages/helpers/saveLocalStore';
 import FavoriteButton from './FavoriteButton';
 
@@ -17,15 +17,22 @@ function SavedRecipes() {
   const currentList = pathname === '/done-recipes'
     ? doneRecipesList : favoriteRecipesList;
 
-  const [shareClick, setShareClick] = useState('');
   const [filter, setFilter] = useState('All');
+  const [shareClick, setShareClick] = useState('');
+  const [timer, setTimer] = useState(0);
+
+  useEffect(() => {
+    if (timer > 0) setTimeout(() => setTimer(timer - 1), Number('1000'));
+    console.log(timer);
+  });
 
   const onShareClick = (type, id) => {
     copy(`http://localhost:3000/${type}s/${id}`);
+    setTimer(Number('3'));
     setShareClick(id);
   };
 
-  const onDelete = () => {
+  const onDelete = (id) => {
     setDoneRecipesList(doneRecipesList.filter((rec) => rec.id !== id));
     saveLocalStore('doneRecipes', doneRecipesList.filter((rec) => rec.id !== id));
   };
@@ -68,7 +75,6 @@ function SavedRecipes() {
                 <Link to={ `/${type}s/${id}` }>
                   <img
                     data-testid={ `${index}-horizontal-image` }
-                    width="200px"
                     src={ image }
                     alt={ name }
                   />
@@ -87,32 +93,7 @@ function SavedRecipes() {
                       : alcoholicOrNot }
                   </p>
                   <p data-testid={ `${index}-horizontal-done-date` }>{doneDate}</p>
-                  <button
-                    type="button"
-                    onClick={ () => onShareClick(type, id) }
-                    style={ { margin: '20px' } }
-                  >
-                    <img
-                      data-testid={ `${index}-horizontal-share-btn` }
-                      src={ ShareImg }
-                      alt="Share Recipe"
-                    />
-                  </button>
-                  <FavoriteButton
-                    recipe={ recipe }
-                    dataTestId={ `${index}-horizontal-favorite-btn` }
-                  />
-                  { pathname === '/done-recipes' && (
-                    <button
-                      type="button"
-                      onClick={ onDelete }
-                    >
-                      <RiDeleteBin6Line font-size="26px" />
-                    </button>
-                  ) }
-                  {shareClick === id
-                    && <span data-testid="linkCopied">Link copied!</span>}
-                  { tags && (
+                  {/* tags && (
                     <ul>
                       { tags.slice(0, 2).map((tag, idx) => (
                         <li
@@ -123,7 +104,35 @@ function SavedRecipes() {
                         </li>
                       ))}
                     </ul>
-                  ) }
+                      ) */}
+                  <div className="icons-container">
+                    <FavoriteButton
+                      recipe={ recipe }
+                      dataTestId={ `${index}-horizontal-favorite-btn` }
+                    />
+                    <button
+                      type="button"
+                      onClick={ () => onShareClick(type, id) }
+                    >
+                      <BiShareAlt font-size="30px" color="black" />
+                    </button>
+                    { pathname === '/done-recipes' && (
+                      <button
+                        type="button"
+                        onClick={ () => onDelete(id) }
+                      >
+                        <RiDeleteBin6Line font-size="30px" />
+                      </button>
+                    ) }
+                  </div>
+                  {(shareClick === id && timer !== 0)
+                    && (
+                      <span
+                        data-testid="linkCopied"
+                        id="new-copied-popUp"
+                      >
+                        Link copied!
+                      </span>)}
                 </div>
               </div>
             );

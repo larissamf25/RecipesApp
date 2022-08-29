@@ -1,7 +1,9 @@
 .header-component {
   background-color: #ce8116;
   display: flex;
+  height: auto;
   flex-direction: column;
+  justify-content: center;
 }
 
   {/*-webkit-transition: all 0.5s ease-in-out; 
@@ -24,13 +26,6 @@ header button {
   height: 20px;
   margin: auto;
   width: 200px;
-}
-
-.header-component hr {
-  background-color: black;
-  height: 1px;
-  margin-bottom: 20px;
-  width: 300px;
 }
 
 .searchbar-container {

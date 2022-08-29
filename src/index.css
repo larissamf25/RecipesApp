@@ -11,10 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-.recomendations-container {
-  background-color: red;
-  display: flex;
-  width: 360px;
-  overflow-x:scroll;
-}

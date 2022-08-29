@@ -1,28 +1,70 @@
-* {
-    margin: 0;
-}
-
 .saved-recipes-page {
-    background-color: #E3DBBF;
+    background-color: #fffaf2;;
+    height: 92vh;
 }
 
 .saved-recipes-page .btns-container {
     display: flex;
     justify-content: center;
-    padding: 20px;
+    padding: 10px;
+}
+
+.saved-recipes-page .btns-container button {
+  background-color: rgb(228, 169, 61);
+  border-radius: 5px;
+  border: none;
+  color: black;
+  font-size: 1.2em;
+  margin: 10px;
+  padding: 4px;
+  width: 80px;
 }
 
 .recipes-container .recipe-card {
+    background-color: rgb(228, 169, 61);
+    border-radius: 15px;
+    box-shadow: -3px 3px 10px black;
     display: flex;
+    margin: 15px;
 }
 
 .recipes-container .recipe-card .recipe-infos {
     color: black;
     padding-left: 20px;
     text-decoration: none;
+    width: 100%;
 }
 
 .recipes-container .recipe-card .recipe-infos a {
   color: black;
   text-decoration: none;
+}
+
+.recipes-container .recipe-card .recipe-infos p:nth-child( 1 ) {
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.recipes-container .recipe-card img {
+    border-radius: 15px 0 0 15px;
+    height: 100%;
+    width: 150px;
+}
+
+.recipes-container .recipe-card button {
+    background: none;
+    border: none;
+}
+
+.recipes-container .recipe-card .recipe-infos .icons-container {
+    padding: 10px;
+    text-align: center;
+}
+
+#new-copied-popUp {
+    background-color: rgb(116, 230, 116);
+    border-radius: 8px;
+    left: 50px;
+    padding: 5px;
+    position: absolute;
 }

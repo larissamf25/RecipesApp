@@ -10,6 +10,7 @@ import Recipes from './pages/Recipes';
 import RecipesProvider from './context/RecipesProvider';
 import RecipeInProgress from './pages/RecipeInProgress';
 import DoneRecipes from './pages/DoneRecipes';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
           <Route path="/profile" component={ Profile } />
           <Route path="/done-recipes" component={ DoneRecipes } />
           <Route path="/favorite-recipes" component={ FavoriteRecipes } />
-
+          <Route path="*" component={ NotFound } />
         </Switch>
       </RecipesProvider>
     </BrowserRouter>

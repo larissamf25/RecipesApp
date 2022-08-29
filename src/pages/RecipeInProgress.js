@@ -3,6 +3,7 @@ import { useParams, useLocation, useHistory } from 'react-router-dom';
 import FavoriteButton from '../components/FavoriteButton';
 import ShareButton from '../components/ShareButton';
 import RecipesContext from '../context/RecipesContext';
+import '../style/Recipes.css';
 import { fecthDrinkById } from '../services/drinkAPI';
 import { fecthFoodById } from '../services/foodAPI';
 import saveLocalStore from './helpers/saveLocalStore';
@@ -79,6 +80,7 @@ function RecipeInProgress() {
       if (recipe[`strIngredient${index}`]) {
         ingredients.push(
           <li
+            id="ingredients"
             data-testid={ `${index - 1}-ingredient-step` }
             key={ index }
           >
@@ -130,19 +132,28 @@ function RecipeInProgress() {
   };
 
   return (
-    <div>
-      <h2 data-testid="recipe-title">{ recipe[recipeKeys.recipeName] }</h2>
+    <div className="recipe-details">
       <img
         src={ recipe[recipeKeys.recipeImage] }
         alt={ recipe[recipeKeys.recipeName] }
         data-testid="recipe-photo"
         width="200px"
       />
-      <FavoriteButton recipe={ recipe } dataTestId="favorite-btn" />
-      <ShareButton />
-      <p data-testid="recipe-category">{ recipe[recipeKeys.recipeCategory]}</p>
-      {listIngredients()}
-      <p data-testid="instructions">{ recipe.strInstructions }</p>
+      <div className="recipe-infos">
+        <div className="icons-container">
+          <FavoriteButton recipe={ recipe } dataTestId="favorite-btn" />
+          <ShareButton />
+        </div>
+        <h2 data-testid="recipe-title">{ recipe[recipeKeys.recipeName] }</h2>
+        <p
+          data-testid="recipe-category"
+          id="recipe-category"
+        >
+          { recipe[recipeKeys.recipeCategory]}
+        </p>
+        {listIngredients()}
+        <p data-testid="instructions">{ recipe.strInstructions }</p>
+      </div>
       <button
         type="button"
         data-testid="finish-recipe-btn"
