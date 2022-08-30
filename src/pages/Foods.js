@@ -22,7 +22,6 @@ function Foods() {
     searchValue,
     setSearchBarOption } = useContext(RecipesContext);
 
-  // const [foodList, setFoodList] = useState([]);
   const [recipes, setRecipes] = useState(undefined);
   const [localFoodList, setLocalFoodList] = useState([]);
   const [currentCategory, setCurrentCategory] = useState('All');
@@ -75,7 +74,13 @@ function Foods() {
     }
     return recipes
       .slice(0, Number('12'))
-      .map((food, idx) => <FoodCard key={ idx } food={ food } index={ idx } />);
+      .map((food, idx) => (
+        <div className="recipe-card" key={ idx }>
+          <Link to={ `/foods/${food.idMeal}` }>
+            <FoodCard food={ food } index={ idx } />
+          </Link>
+        </div>
+      ));
   };
 
   return (
@@ -125,7 +130,7 @@ function Foods() {
                 </div>
               ))}
             </div>)
-          : verifyRecipesLength()
+          : <div className="recipes-container">{verifyRecipesLength()}</div>
       }
       <Footer />
     </div>

@@ -44,7 +44,6 @@ function Drinks() {
       setCurrentCategory('All');
     } else {
       const filterdDrinkList = await fetchDrinkAPIByCategory(category);
-      console.log(filterdDrinkList);
       setLocalDrinkList(filterdDrinkList.slice(0, Number('12')));
       setCurrentCategory(category);
     }
@@ -75,32 +74,42 @@ function Drinks() {
     }
     return recipes
       .slice(0, Number('12'))
-      .map((drink, idx) => <DrinkCard key={ idx } drink={ drink } index={ idx } />);
+      .map((drink, idx) => (
+        <div className="recipe-card" key={ idx }>
+          <Link to={ `/drinks/${drink.idDrink}` }>
+            <DrinkCard drink={ drink } index={ idx } />
+          </Link>
+        </div>
+      ));
   };
 
   return (
     <div className="recipes-page">
       <Header />
       <div className="categories-container">
+        <button
+          type="button"
+          name="All"
+          onClick={ categoryFilter }
+          id={ currentCategory === 'All'
+            && 'category-selected' }
+          data-testid="All-category-filter"
+        >
+          All
+        </button>
         { drinkCategories.slice(0, Number('5')).map((category, idx) => (
           <button
             key={ idx }
             type="button"
             data-testid={ `${category.strCategory}-category-filter` }
+            id={ currentCategory === category.strCategory
+              && 'category-selected' }
             name={ category.strCategory }
             onClick={ categoryFilter }
           >
             { category.strCategory }
           </button>
         ))}
-        <button
-          type="button"
-          name="All"
-          onClick={ categoryFilter }
-          data-testid="All-category-filter"
-        >
-          All
-        </button>
       </div>
       {
         (!recipes && recipes !== null)
@@ -114,7 +123,7 @@ function Drinks() {
                 </div>
               ))}
             </div>)
-          : verifyRecipesLength()
+          : <div className="recipes-container">{verifyRecipesLength()}</div>
       }
       { }
       <Footer />

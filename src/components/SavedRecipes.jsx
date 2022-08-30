@@ -6,6 +6,7 @@ import '../style/SavedRecipes.css';
 import RecipesContext from '../context/RecipesContext';
 import saveLocalStore from '../pages/helpers/saveLocalStore';
 import FavoriteButton from './FavoriteButton';
+import Footer from './Footer';
 
 const copy = require('clipboard-copy');
 
@@ -138,6 +139,7 @@ function SavedRecipes() {
             );
           }) }
       </section>
+      <Footer />
     </div>
   );
 }
