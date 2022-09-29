@@ -1,4 +1,4 @@
-# RecipesApp Project 💸
+# RecipesApp Project 🍔 :cup_with_straw:
 
 
 https://user-images.githubusercontent.com/101740306/193120459-34ebcc23-b8be-4ea8-bb50-f360bb9871fd.mp4
@@ -26,7 +26,7 @@ https://user-images.githubusercontent.com/101740306/193120459-34ebcc23-b8be-4ea8
   - RTL;
   - CSS;
   
-## Developers:
+## Developers: :people_holding_hands:
 - Bruno Krauthamer (@brunokrauthamer)
 - Diego Sabino
 - Miyuki Ishii (@miyukishii)
