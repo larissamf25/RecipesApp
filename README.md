@@ -5,7 +5,7 @@ https://user-images.githubusercontent.com/101740306/193120459-34ebcc23-b8be-4ea8
 
 
 ## About ❓
-  This project, developed in the Trybe course fow Full Stack Web Developers, consists in a recipe application. It is possible to list, search by name and ingredients, filter, favorite and follow the preparation progress of food and drink recipes! It was used the APIs TheMealDB API and The CockTailDB API to get the data.
+  This project, developed in the Trybe course fow Full Stack Web Developers, consists in a mobile recipe application. It is possible to list, search by name and ingredients, filter, favorite and follow the preparation progress of food and drink recipes! It was used the APIs TheMealDB API and The CockTailDB API to get the data.
   
 ## Requirements: ✔️
  - Login Page;
