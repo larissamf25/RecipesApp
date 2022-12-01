@@ -32,5 +32,5 @@ https://user-images.githubusercontent.com/101740306/193120459-34ebcc23-b8be-4ea8
 - Miyuki Ishii (@miyukishii)
 
 ## How to run the project: 👀
-  Git clone the repository, enter the folder, wun npm install and it's ready to navigate!! Enjoy the project 💚
+  Git clone the repository, enter the folder, run npm install and it's ready to navigate!! Enjoy the project 💚
 
